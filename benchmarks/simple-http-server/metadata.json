@@ -1,0 +1,5 @@
+{
+  "title": "Simple HTTP Server",
+  "description": "A simple HTTP server returning a text string.",
+  "useful": {}
+}
