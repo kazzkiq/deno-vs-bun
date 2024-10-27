@@ -38,11 +38,52 @@
         margin: 50px auto;
         max-width: 700px;
 
+        a {
+          color: dodgerblue;
+          border-bottom: 1px dashed dodgerblue;
+          text-decoration: none;
+          padding: 2px 0;
+
+          &:hover {
+            border-bottom-style: solid;
+            border-bottom-width: 2px;
+          }
+        }
+
         .version {
           font-size: 1.5rem;
           padding: 0;
           list-style: none;
           font-weight: bold;
+        }
+
+        details {
+          border: 1px solid #000;
+          padding: 10px;
+          font-size: 1.4rem;
+
+          &[open] {
+            summary {
+              border-bottom: 1px solid #000;
+            }
+          }
+
+          summary {
+            margin: -10px;
+            padding: 2px 10px;
+            user-select: none;
+            cursor: pointer;
+          }
+
+          pre {
+            background: #eee;
+            font-size: 1.3rem;
+            padding: 5px 8px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
         }
 
         hr {
@@ -131,28 +172,43 @@
   <body>
     <main>
       <header>
-        <h1>Deno 2 vs Bun Benchmarks</h1>
+        <h1>Deno vs Bun Benchmarks</h1>
         <p class="text_small">
           <b>Disclaimer:</b><br>These benchmarks were made out of curiosity and most likely won't reflect<br />
           real world scenarios that your application is going to face.
         </p>
-        <p class="text_small">You may notice we're focusing only on requests per second which is definitely not the only relevant metric in a benchmark. Latency, RAM & CPU usage, operational system and code architecture are other variables extremely important. That's exactly why you should not use the results below as the cornerstone to chose either Bun nor Deno.</p>
+        <p class="text_small">You may notice we're focusing only on requests per second which is definitely not the only relevant metric in a benchmark. Latency, RAM & CPU usage, operational system and code architecture are other highly important variables. That's exactly why you should not use the results below as the cornerstone to a decision between Bun nor Deno, for that you should run your own benchmarks, fine tuned for your use case.</p>
         <p class="text_small">
-          You also may want to run your own fine tuned benchmarks, focused on your use case.
-          <br />The ones presented below are just for fun.
+          <em>Always take benchmarks with a grain of salt.</em>
         </p>
         <p>
           <ul class="version">
-            <li>Executed at: <time>21 September 2024</time></li>
+            <li>Executed at: <time>21 December 2024</time></li>
             <li>Deno version: 2.0.3</li>
             <li>Bun version: 1.2.0</li>
           </ul>
         </p>
+        <p><a href="https://github.com/kazzkiq/deno-vs-bun">Source code</a></p>
+        <details>
+          <summary>Benchmark methodology</summary>
+          <p>The benchmark runs synchronously (1 program at a time). It always runs as single core. First there is a warmup that is executed 3 times, then the real benchmark begins. All applications run on port <code>3001</code>.</p>
+          <p>This benchmark uses <a href="https://github.com/hatoo/oha">oha</a> as the load testing tool.</p>
+          <p>This is the warmup command (100,000 requests, 3x):</p>
+          <pre><code>oha -n 100000 -c 10 --disable-compression http://localhost:3001/</code></pre>
+
+          <p>And this is the benchmark one (10,000,000 requests @ 200 concurrency):</p>
+          <pre><code>oha -n 10000000 -c 200 --disable-compression http://localhost:3001/</code></pre>
+
+          <p>All tests are executed on a Basic Regular Droplet VPS from DigitalOcean (2vCPUs, 4GiB RAM).</p>
+          <p></p>
+        </details>
+
       </header>
       <hr />
 
       <section class="benchmarks">
-        <div class="benchmark">
+        <!-- Sample benchmark -->
+        <!-- <div class="benchmark">
           <h2>Simple HTTP server</h2>
           <p>A simple HTTP server returning a text string.</p>
 
@@ -164,87 +220,8 @@ Deno: 978,493 req/s</code>
             <div class="bar bun"></div>
             <div class="bar deno"></div>
           </div>
-        </div>
-        <div class="benchmark">
-          <h2>Simple HTTP server</h2>
-          <p>A simple HTTP server returning a text string.</p>
-          <ul class="version"">
-            <li>Deno version: 2.0.3</li>
-            <li>Bun version: 1.2.0</li>
-          </ul>
-          <pre>
-            <code> Bun: 1,193,204 req/s (1.5x faster) or (20% faster)
-Deno: 978,493 req/s</code>
-          </pre>
-          <div class="graph">
-            <div class="bar bun"></div>
-            <div class="bar deno"></div>
           </div>
-        </div>
-        <div class="benchmark">
-          <h2>Simple HTTP server</h2>
-          <p>A simple HTTP server returning a text string.</p>
-          <ul class="version"">
-            <li>Deno version: 2.0.3</li>
-            <li>Bun version: 1.2.0</li>
-          </ul>
-          <pre>
-            <code> Bun: 1,193,204 req/s (1.5x faster) or (20% faster)
-Deno: 978,493 req/s</code>
-          </pre>
-          <div class="graph">
-            <div class="bar bun"></div>
-            <div class="bar deno"></div>
-          </div>
-        </div>
-        <div class="benchmark">
-          <h2>Simple HTTP server</h2>
-          <p>A simple HTTP server returning a text string.</p>
-          <ul class="version"">
-            <li>Deno version: 2.0.3</li>
-            <li>Bun version: 1.2.0</li>
-          </ul>
-          <pre>
-            <code> Bun: 1,193,204 req/s (1.5x faster) or (20% faster)
-Deno: 978,493 req/s</code>
-          </pre>
-          <div class="graph">
-            <div class="bar bun"></div>
-            <div class="bar deno"></div>
-          </div>
-        </div>
-        <div class="benchmark">
-          <h2>Simple HTTP server</h2>
-          <p>A simple HTTP server returning a text string.</p>
-          <ul class="version"">
-            <li>Deno version: 2.0.3</li>
-            <li>Bun version: 1.2.0</li>
-          </ul>
-          <pre>
-            <code> Bun: 1,193,204 req/s (1.5x faster) or (20% faster)
-Deno: 978,493 req/s</code>
-          </pre>
-          <div class="graph">
-            <div class="bar bun"></div>
-            <div class="bar deno"></div>
-          </div>
-        </div>
-        <div class="benchmark">
-          <h2>Simple HTTP server</h2>
-          <p>A simple HTTP server returning a text string.</p>
-          <ul class="version"">
-            <li>Deno version: 2.0.3</li>
-            <li>Bun version: 1.2.0</li>
-          </ul>
-          <pre>
-            <code> Bun: 1,193,204 req/s (1.5x faster) or (20% faster)
-Deno: 978,493 req/s</code>
-          </pre>
-          <div class="graph">
-            <div class="bar bun"></div>
-            <div class="bar deno"></div>
-          </div>
-        </div>
+        -->
       </section>
     </main>
   </body>
